@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getToken, setToken } from '../core/token';
-import authService from '../services/authService';
+import { authService } from '~/services/auth.service';
 
 // axios.defaults.baseURL = import.meta.env.VITE_API_HOST;
 
