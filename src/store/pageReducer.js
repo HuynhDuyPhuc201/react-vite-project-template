@@ -1,28 +1,18 @@
-// import { TOGGLE_CART_MODAL, TOGGLE_SEARCH_MODAL } from './type';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initState = {
-    openSearchModal: false,
-    openCartModal: false,
+const initialState = {
+    openSidebar: false,
 };
-const TOGGLE_SEARCH_MODAL = 'toggle-modal-search';
-const TOGGLE_CART_MODAL = 'toggle-modal-cart';
 
-export const toggleSearchDrawerAction = () => ({ type: TOGGLE_SEARCH_MODAL });
-export const toggleCartDrawerAction = () => ({ type: TOGGLE_CART_MODAL });
+const pageReducer = createSlice({
+    name: 'page',
+    initialState,
+    reducers: {
+        toggleSidebar: (state) => {
+            state.openSidebar = !state.openSidebar;
+        },
+    },
+});
 
-export default function pageReducer(state = initState, action) {
-    switch (action.type) {
-        case TOGGLE_SEARCH_MODAL:
-            return {
-                ...state,
-                openSearchModal: !state.openSearchModal,
-            };
-        case TOGGLE_CART_MODAL:
-            return {
-                ...state,
-                openCartModal: !state.openCartModal,
-            };
-        default:
-            return state;
-    }
-}
+export const { toggleSidebar } = pageReducer.actions;
+export default pageReducer.reducer;

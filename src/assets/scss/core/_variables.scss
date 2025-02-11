@@ -1,0 +1,91 @@
+//======================================================BOXED LAYOUT=======================================================
+
+$container-max-width: 100%;
+$container-width: 1100px; // tùy thuộc vào container của bản thiết kế // $container-width = container (đo từ bản thiết kế) + 30px
+
+/*GRID - media queries breakpoints*/
+$xxs-min: 576px; // CÓ THỂ TÙY CHỈNH
+$xs-min: 768px; // KHÔNG THAY ĐỔI
+$sm-min: 992px; // KHÔNG THAY ĐỔI
+$md-min: 1200px; // KHÔNG THAY ĐỔI
+$lg-min: 1600px; // CÓ THỂ TÙY CHỈNH
+
+$xxs-max: ($xxs-min - 1); // Small Mobile
+$xs-max: ($xs-min - 1); // Mobile
+$sm-max: ($sm-min - 1); // Tablet
+$md-max: ($md-min - 1); // Desktop
+$lg-max: ($lg-min - 1); // Large Desktop
+
+//=====================================CÁC BIẾN KHÔNG THAY ĐỔI GIÁ TRỊ KHI RESPONSIVE======================================
+// colors - tuỳ chỉnh
+$white-cl: #fff; //màu chủ đạo
+$black-cl: #2e2e2d; //màu chủ đạo
+$red-cl: #d81f1f;
+$blue-cl: #00afab;
+
+$gradient-cl: linear-gradient(180deg, #df1cff 0%, #814bf6 50.55%, #00bcff 100%);
+
+// timing transition - tuỳ chỉnh
+$t: 0.4s;
+$cubic: cubic-bezier(0.84, 0.13, 0.33, 0.97);
+
+// ========================================CÁC BIẾN CÓ THAY ĐỔI GIÁ TRỊ KHI RESPONSIVE=====================================
+
+$height-header: 70px;
+:root {
+    //=========== VÍ DỤ ============//
+
+    // font-size & line-height heading
+
+    --h1-fs: 7.2rem;
+    --h1-lh: 8rem;
+
+    --h2-fs: 5.2rem;
+    --h2-lh: 6rem;
+
+    --h3-fs: 3.2rem;
+    --h3-lh: 4.2rem;
+
+    --h4-fs: 2.4rem;
+    --h4-lh: 3.2rem;
+
+    --h5-fs: 2rem;
+    --h5-lh: 3rem;
+
+    --body16-fs: 1.6rem;
+    --body16-lh: 2.6rem;
+
+    --body14-fs: 1.4rem;
+    --body14-lh: 2.2rem;
+
+    // Genaral Variable
+
+    --gap: 30px; // gap này sử dụng cho gap cột & padding của container, container-fluid
+
+    --height-header: 80px;
+    --height-button: 56px;
+    --ptop: 150px;
+    --pd-section: 120px;
+
+    @media (max-width: $sm-max) {
+        // Tablet
+    }
+    @media (max-width: $xs-max) {
+        // Mobile
+        --h1-fs: 3.6rem;
+        --h1-lh: 4.2rem;
+
+        --h2-fs: 2.8rem;
+        --h2-lh: 3.8rem;
+
+        --h3-fs: 2.2rem;
+        --h3-lh: 3rem;
+
+        --h4-fs: 2rem;
+        --h4-lh: 3.2rem;
+
+        --height-header: 70px;
+        --pd-section: 50px;
+        --ptop: 120px;
+    }
+}

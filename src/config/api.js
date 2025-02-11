@@ -3,7 +3,7 @@ import { getToken, setToken } from '../core/token';
 import { authService } from '~/services/auth.service';
 
 // axios.defaults.baseURL = import.meta.env.VITE_API_HOST;
-
+ic
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_HOST, // import theo kiểu vite
 });

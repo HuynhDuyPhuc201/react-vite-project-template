@@ -1,3 +1,7 @@
 export const path = {
-    Home: '/'
-}
+    Home: '/',
+    Product: '/product',
+    ProductDetail: '/product-detail',
+    Order: '/order',
+    TypeProduct: '/type',
+};

@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "ur";
+    src:
+        url("UTMAvo.woff2") format("woff2"),
+        url("UTMAvo.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ub";
+    src:
+        url("UTMAvoBold.woff2") format("woff2"),
+        url("UTMAvoBold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}

@@ -1,0 +1,12 @@
+/* @import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css'; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #f1f5f9 ;
+}
