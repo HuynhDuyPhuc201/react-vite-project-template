@@ -2,53 +2,53 @@ import axios from 'axios';
 import { getToken, setToken } from '../core/token';
 import { authService } from '~/services/auth.service';
 
-// axios.defaults.baseURL = import.meta.env.VITE_API_HOST;
-ic
+// Khởi tạo Axios instance
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_HOST, // import theo kiểu vite
+    baseURL: import.meta.env.VITE_API_HOST,
+    withCredentials: true, // ✅ Đảm bảo luôn gửi cookie trong request
 });
 
+// Request Interceptor: Gửi token trong header nếu có
 api.interceptors.request.use((config) => {
     const token = getToken();
-
     if (token) {
-        config.headers.Authorization = `Bearer ${token.accessToken}`;
+        config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 });
 
-let promiseRefreshToken = null;
-
-// lấy data từ giá trị trả về -> rút ngắn data của axios
+// Response Interceptor: Xử lý lỗi và refresh token
 api.interceptors.response.use(
     (res) => {
         return res.data;
     },
-
     async (err) => {
-        const response = err.response.data;
+        console.log('Lỗi API:', err?.response?.data);
 
-        console.log(response.error_code);
+        // Kiểm tra lỗi do token hết hạn
+        if (err?.response?.data?.message === 'Token is not valid') {
+            try {
+                console.log('🔄 Refreshing token...');
 
-        // ktra xem token có bị hêt hạn hay kh? nếu hết hạn thì refresh token mới
-        if (response.error_code === 'TOKEN_EXPIRED') {
-            if (promiseRefreshToken) {
-                await promiseRefreshToken;
-            } else {
-                const token = getToken();
-                promiseRefreshToken = authService.refreshToken({ refreshToken: token.refreshToken });
-                const accessToken = await promiseRefreshToken;
-                token.accessToken = accessToken.data.accessToken;
-                setToken(token);
+                // Gọi API refresh token
+                const newAccessToken = await authService.refreshToken();
+
+                // Lưu token mới vào localStorage hoặc cookie
+                setToken(newAccessToken.access_token);
+
+                // Cập nhật token mới vào headers của axios
+                api.defaults.headers.Authorization = `Bearer ${newAccessToken.access_token}`;
+
+                // Gửi lại request ban đầu với token mới
+                err.config.headers.Authorization = `Bearer ${newAccessToken.access_token}`;
+                return api.request(err.config);
+            } catch (refreshError) {
+                console.error('🚨 Refresh token failed', refreshError);
+                throw new Error(refreshError?.response?.data);
             }
-            promiseRefreshToken = null;
-            return api(err.config);
         }
-        throw err.response.data;
-    },
-    // hàm trả về lỗi
-    (err) => {
-        throw err.response.data;
+
+        return Promise.reject(err);
     },
 );
 

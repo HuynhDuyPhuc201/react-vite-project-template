@@ -1,5 +1,5 @@
 import { Image } from 'antd';
-import React from 'react';
+import React, { memo } from 'react';
 import Slider from 'react-slick';
 const SliderComponent = ({ arrImg }) => {
     const settings = {
@@ -32,4 +32,4 @@ const SliderComponent = ({ arrImg }) => {
     );
 };
 
-export default SliderComponent;
+export default memo(SliderComponent);

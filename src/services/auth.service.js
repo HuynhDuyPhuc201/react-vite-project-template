@@ -1,14 +1,13 @@
 import api from '~/config/api';
 
-// demo
 export const authService = {
     login(form) {
-        return api.post('/authentication/v2/login', form);
+        return api.post('/user/sign-in', form);
     },
     register(form) {
-        return api.post('', form);
+        return api.post('/user/sign-up', form);
     },
-    refreshToken(form) {
-        return api.post('', form);
+    refreshToken() {
+        return api.post('/user/refresh-token', {}, { withCredentials: true });
     },
 };

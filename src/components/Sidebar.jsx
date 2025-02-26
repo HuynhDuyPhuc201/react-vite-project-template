@@ -1,12 +1,13 @@
 import { Drawer } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleSidebar } from '~/store/pageReducer';
 import { CloseOutlined } from '@ant-design/icons';
 import SearchComponent from './SearchComponent';
+import { useAppStore } from '~/store/useAppStore';
 
 const Sidebar = () => {
-    const { openSidebar } = useSelector((state) => state.page);
+    const { toggleSidebar, openSidebar } = useAppStore();
+
     const dispatch = useDispatch();
     return (
         <>
