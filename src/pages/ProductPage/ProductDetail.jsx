@@ -134,7 +134,9 @@ const ProductDetail = () => {
                             </div>
                             <Row gutter={[10, 10]}>
                                 {productRecommand?.data.map((item, i) => (
-                                    <CartComponent item={item} key={i} />
+                                    <Col md={8} sm={12} key={i}>
+                                        <CartComponent item={item} />
+                                    </Col>
                                 ))}
                             </Row>
                         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-const InputForm = ({ placeholder, name, type, error }) => {
+const InputForm = ({ placeholder, name, type, error, ...props }) => {
     const { register } = useFormContext(); // Lấy errors từ form context
     return (
         <>
@@ -17,6 +17,7 @@ const InputForm = ({ placeholder, name, type, error }) => {
                     padding: '10px',
                     outline: 'none',
                 }}
+                {...props}
             />
             {/* Hiển thị lỗi nếu có */}
             {error && <p style={{ color: 'red' }}>{error.message}</p>}

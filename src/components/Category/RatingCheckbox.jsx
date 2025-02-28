@@ -6,7 +6,7 @@ export const RatingCheckbox = memo(({ value, checked, onChange }) => {
         <Col span={24}>
             <Checkbox value={value} onChange={onChange} checked={checked}>
                 <Rate defaultValue={value} disabled style={{ fontSize: '12px' }} />
-                <span className="pl-4">{value} sao</span>
+                <span className="pl-4">từ {value} sao</span>
             </Checkbox>
         </Col>
     );

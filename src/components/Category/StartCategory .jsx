@@ -14,7 +14,7 @@ const StartCategory = ({ ratingObj }) => {
 
     const handleRatingChange = useCallback(
         (e) => {
-            const value = e.target.value;
+            const value = e.target?.value;
             setSelectRating((prev) => {
                 const newRating = prev === value ? null : value;
                 updateRating(newRating);

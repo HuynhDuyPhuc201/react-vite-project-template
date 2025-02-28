@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { slider_1, slider_2, slider_3 } from '~/constants/images';
 import CartComponent from '~/components/CartComponent.jsx';
 import Navbar from '~/components/Navbar.jsx';
-import { Col, Row } from 'antd';
+import { Col, Pagination, Row } from 'antd';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { productService } from '~/services/product.service';
 import { useQuery } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ import SliderComponent from '~/components/SliderComponent ';
 const Index = () => {
     const arr = ['TV', 'Tu lanh', 'Laptop', 'Dien thoai'];
     const arrImg = [slider_1, slider_2, slider_3];
+    const [currentPage, setCurrentPage] = useState(1);
     const { id } = useParams();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -56,6 +57,10 @@ const Index = () => {
     };
     const dataProduct = data?.data;
 
+    console.log('dataProduct', data);
+    const onShowSizeChange = (page) => {
+        setCurrentPage(page);
+    };
     return (
         <div className="py-0 container">
             <div className="wrap flex border-b-2 border-black border-solid mb-10">
@@ -90,7 +95,9 @@ const Index = () => {
                 <Col md={18}>
                     <Row gutter={[12, 12]} style={{ rowGap: '16px', marginTop: '20px' }}>
                         {dataProduct?.map((item, i) => (
-                            <CartComponent item={item} key={i} />
+                            <Col md={6} sm={12} key={i}>
+                                <CartComponent item={item} />
+                            </Col>
                         ))}
                     </Row>
                     {dataProduct?.length === 0 && (
@@ -106,6 +113,14 @@ const Index = () => {
                     Xem thêm
                 </button>
             </div>
+            <Pagination
+                style={{ padding: '16px', display: 'flex', justifyContent: 'center' }}
+                showSizeChanger
+                onChange={onShowSizeChange}
+                total={data?.total || 0}
+                pageSize={8}
+                current={currentPage}
+            />
         </div>
     );
 };

@@ -5,9 +5,6 @@ export const userService = {
     update(form) {
         return api.put(`/user/update-user`, form);
     },
-    delete(id) {
-        return api.delete(`/user/delete-user/${id}`);
-    },
     getDetail(id) {
         return api.get(`/user/get-detail/${id}`);
     },
@@ -15,5 +12,11 @@ export const userService = {
         return api.post(`/user/upload-avatar`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
+    },
+    getAll() {
+        return api.get(`/auth/getall`);
+    },
+    delete(queryId) {
+        return api.delete(`/auth/delete-user?${queryId}`);
     },
 };

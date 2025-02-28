@@ -12,18 +12,26 @@ export const productService = {
     create(form) {
         return api.post(`/product/create-product`, form);
     },
-    update(id) {
-        return api.put(`/product/update-product/${id?.lengthh === 1 && id}`, { id });
+    update(form) {
+        return api.put(`/product/update-product`, form);
     },
-    delete(id) {
-        console.log('id', id);
-        return api.delete(`/product/delete-product/${id}`);
+    delete(ids) {
+        return api.delete(`/product/delete-product?${ids}`);
     },
-    deleteAll(formPassword) {
-        return api.delete(`/product/delete-all-product`, formPassword);
+    deleteAll() {
+        return api.delete(`/product/delete-all-product`);
     },
     // category
-    getCategory(form) {
-        return api.get(`/product/getCategory`, form);
+    getCategory() {
+        return api.get(`/product/getCategory`);
+    },
+    createCategory(body) {
+        return api.post(`/product/create-category`, body);
+    },
+    deleteCategory(ids) {
+        return api.delete(`/product/delete-cateogry?${ids}`);
+    },
+    deleteAllCategory() {
+        return api.delete(`/product/delete-all-cateogry`);
     },
 };

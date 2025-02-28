@@ -1,26 +1,16 @@
 export const startArr = [
     {
         id: 1,
-        value: 5,
-        checked: false,
-    },
-    {
-        id: 2,
-        value: 4,
-        checked: false,
-    },
-    {
-        id: 3,
         value: 3,
         checked: false,
     },
     {
-        id: 4,
+        id: 2,
         value: 2,
         checked: false,
     },
     {
-        id: 5,
+        id: 3,
         value: 1,
         checked: false,
     },

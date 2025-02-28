@@ -5,10 +5,13 @@ import Header from '~/components/Layout/Header';
 import AdminUser from './AdminUser';
 import AdminProduct from './AdminProduct';
 import Category from './Category';
+import { Navigate } from 'react-router-dom';
+import { path } from '~/config/path';
+import { getUser } from '~/core/token';
 
 const Admin = () => {
-    const [renderComponent, setRenderComponent] = useState();
-
+    const [renderComponent, setRenderComponent] = useState('user');
+    const user = getUser();
     const items = [
         {
             key: 'user',
@@ -26,6 +29,7 @@ const Admin = () => {
         setRenderComponent(key);
     };
     console.log(renderComponent);
+    if (!user) return <Navigate to={path.Home} />;
     return (
         <>
             <Header />
@@ -33,7 +37,6 @@ const Admin = () => {
                 <Menu
                     onClick={onClick}
                     style={{ width: 256, height: '100vh' }}
-                    defaultSelectedKeys={['1']}
                     defaultOpenKeys={['user']}
                     mode="inline"
                     items={items}

@@ -16,6 +16,7 @@ const TextCategory = () => {
         queryKey: ['category'],
         queryFn: fetchData,
     });
+    console.log(data, 'data');
 
     return (
         <div className="category bg-[#fff] rounded-[8px] p-10 w-full my-2">

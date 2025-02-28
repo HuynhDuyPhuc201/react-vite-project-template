@@ -44,7 +44,6 @@ const AuthModal = () => {
             setShowSignUp(false);
             message.success(data.message);
         } catch (error) {
-            console.log('error.response', error.response);
             message.error(error.response.data?.message);
         }
 
