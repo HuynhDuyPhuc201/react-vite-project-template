@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getToken, setToken } from '../core/token';
-import { authService } from '~/services/auth.service';
+import { userService } from '~/services/user.service';
 
 // Khởi tạo Axios instance
 const api = axios.create({
@@ -31,7 +31,7 @@ api.interceptors.response.use(
                 console.log('🔄 Refreshing token...');
 
                 // Gọi API refresh token
-                const newAccessToken = await authService.refreshToken();
+                const newAccessToken = await userService.refreshToken();
 
                 // Lưu token mới vào localStorage hoặc cookie
                 setToken(newAccessToken.access_token);

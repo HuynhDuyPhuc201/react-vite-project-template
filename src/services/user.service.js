@@ -8,15 +8,15 @@ export const userService = {
     getDetail(id) {
         return api.get(`/user/get-detail/${id}`);
     },
-    uploadAvatar() {
-        return api.post(`/user/upload-avatar`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        });
+
+    // auth
+    login(form) {
+        return api.post('/user/sign-in', form);
     },
-    getAll() {
-        return api.get(`/auth/getall`);
+    register(form) {
+        return api.post('/user/sign-up', form);
     },
-    delete(queryId) {
-        return api.delete(`/auth/delete-user?${queryId}`);
+    refreshToken() {
+        return api.post('/user/refresh-token', {}, { withCredentials: true });
     },
 };

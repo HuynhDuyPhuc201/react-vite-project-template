@@ -1,9 +1,9 @@
-import { Card, Col } from 'antd';
+import { Card } from 'antd';
 import React from 'react';
 import { StarFilled } from '@ant-design/icons';
-import { formatNumber } from './formatNumber';
 import { generatePath, Link, useParams } from 'react-router-dom';
 import { path } from '~/config/path';
+import { formatNumber } from '~/core';
 
 const CartComponent = ({ item }) => {
     const { id } = useParams();

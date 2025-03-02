@@ -8,11 +8,16 @@ import { ShoppingCartOutlined, StarFilled } from '@ant-design/icons';
 import CartComponent from '~/components/CartComponent';
 import { productService } from '~/services/product.service';
 import { useQuery } from '@tanstack/react-query';
-import { formatNumber } from '~/components/formatNumber';
+import { useAppStore } from '~/store/useAppStore';
+import { getUser } from '~/core/token';
+import { formatNumber } from '~/core';
 
 const { Title, Text } = Typography;
 const ProductDetail = () => {
     const { idCate, id } = useParams();
+    const { openModal, toggleModal } = useAppStore();
+    const user = getUser();
+    const [state, setState] = useState([]);
 
     const { data: dataDetail, isLoading: isLoadingDetail } = useQuery({
         queryKey: ['productDetail', id],
@@ -48,31 +53,14 @@ const ProductDetail = () => {
         slidesToScroll: 1,
     };
 
-    const data = [
-        { key: '1', label: 'Phiên bản sách', value: 'Phiên bản thường' },
-        { key: '2', label: 'Công ty phát hành', value: 'Megabook' },
-        { key: '3', label: 'Ngày xuất bản', value: '2021-10-01 00:00:00' },
-        { key: '4', label: 'Kích thước', value: '19 × 27 cm' },
-        { key: '5', label: 'Loại bìa', value: 'Bìa mềm' },
-        { key: '6', label: 'Số trang', value: '36' },
-        { key: '7', label: 'Nhà xuất bản', value: 'Nhà Xuất Bản Thanh Niên' },
-    ];
+    const handleAddCart = () => {
+        if (!user) {
+            toggleModal(true);
+        }
+        setState((prev) => [...prev, detailProduct]);
+    };
+    console.log('state', state);
 
-    const columns = [
-        {
-            title: '',
-            dataIndex: 'label',
-            key: 'label',
-            className: 'font-bold text-gray-600',
-        },
-        {
-            title: '',
-            dataIndex: 'value',
-            key: 'value',
-            className: 'text-gray-800',
-        },
-    ];
-    console.log('dataDetail', dataDetail);
     return (
         <>
             <div className="container pt-10">
@@ -179,12 +167,18 @@ const ProductDetail = () => {
                                             borderColor: '#ff4d4f',
                                             marginBottom: '8px',
                                         }}
+                                        onClick={handleAddCart}
                                     >
                                         Mua ngay
                                     </Button>
                                 </Col>
                                 <Col span={24}>
-                                    <Button type="default" icon={<ShoppingCartOutlined />} block>
+                                    <Button
+                                        onClick={handleAddCart}
+                                        type="default"
+                                        icon={<ShoppingCartOutlined />}
+                                        block
+                                    >
                                         Thêm vào giỏ
                                     </Button>
                                 </Col>

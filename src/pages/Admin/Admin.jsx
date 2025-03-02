@@ -8,6 +8,7 @@ import Category from './Category';
 import { Navigate } from 'react-router-dom';
 import { path } from '~/config/path';
 import { getUser } from '~/core/token';
+import './admin.scss';
 
 const Admin = () => {
     const [renderComponent, setRenderComponent] = useState('user');
@@ -28,20 +29,25 @@ const Admin = () => {
         console.log(key);
         setRenderComponent(key);
     };
-    console.log(renderComponent);
     if (!user) return <Navigate to={path.Home} />;
     return (
         <>
             <Header />
-            <div className="flex">
-                <Menu
-                    onClick={onClick}
-                    style={{ width: 256, height: '100vh' }}
-                    defaultOpenKeys={['user']}
-                    mode="inline"
-                    items={items}
-                />
-                <div className="w-full">{renderComponent === 'user' ? <AdminUser /> : <AdminProduct />}</div>
+            <div className="pt-[50px] md:pt-[70px]">
+                <Row span={(24, 24)}>
+                    <Col sm={24} xs={24} md={4}>
+                        <Menu
+                            onClick={onClick}
+                            className="custom-menu"
+                            defaultOpenKeys={['user']}
+                            mode="inline"
+                            items={items}
+                        />
+                    </Col>
+                    <Col sm={24} md={20}>
+                        <div className="">{renderComponent === 'user' ? <AdminUser /> : <AdminProduct />}</div>
+                    </Col>
+                </Row>
             </div>
         </>
     );

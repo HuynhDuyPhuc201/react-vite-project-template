@@ -1,8 +1,7 @@
-import { Col, Row } from 'antd';
+import { Row } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
-import { useProductStore } from '~/store/useProductStore';
-import { formatNumber } from '../formatNumber';
 import { useSearchParams } from 'react-router-dom';
+import { formatNumber } from '~/core';
 
 const PriceCategory = ({ priceObj }) => {
     const { price, updatePrice } = priceObj;

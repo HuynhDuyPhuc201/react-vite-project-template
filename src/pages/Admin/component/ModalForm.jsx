@@ -19,12 +19,13 @@ export const ModalForm = ({ title, isOpen, onCancel, methods, onSubmit, fields }
                                                 error={methods.formState.errors[field.name]}
                                                 placeholder={field.placeholder}
                                                 name={field.name}
+                                                required={field.required}
                                                 type={
                                                     ['password', 'confirmPassword'].includes(field.name)
                                                         ? 'password'
                                                         : 'text'
                                                 }
-                                                disabled={field.name === 'id'}
+                                                disabled={['id'].includes(field.name)}
                                             />
                                             <div className="pt-[10px] ">{field?.button}</div>
                                         </div>
@@ -49,11 +50,6 @@ export const ModalForm = ({ title, isOpen, onCancel, methods, onSubmit, fields }
                                                 </option>
                                             ))}
                                         </select>
-                                        {methods.formState.errors[field.name] && (
-                                            <p style={{ color: 'red' }}>
-                                                {methods.formState.errors[field.name].message}
-                                            </p>
-                                        )}
                                     </>
                                 )}
                                 {field.type === 'rating' && (
@@ -79,13 +75,9 @@ export const ModalForm = ({ title, isOpen, onCancel, methods, onSubmit, fields }
                                                 />
                                             )}
                                         />
-                                        {methods.formState.errors[field.name] && (
-                                            <p style={{ color: 'red' }}>
-                                                {methods.formState.errors[field.name].message}
-                                            </p>
-                                        )}
                                     </div>
                                 )}
+                                {['avatar', 'photo'].includes(field.type) && <>{field?.render}</>}
                             </Col>
                         ))}
                         <div className="flex items-center justify-center w-full">
