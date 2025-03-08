@@ -2,7 +2,7 @@ const TOKEN_NAME = 'token';
 const USER_NAME = 'user';
 
 export const getToken = () => {
-    let token = localStorage.getItem(TOKEN_NAME);
+    let token = localStorage?.getItem(TOKEN_NAME);
     if (!token || token === 'undefined') {
         return null;
     }
@@ -17,7 +17,7 @@ export const removeToken = () => {
 };
 
 export const getUser = () => {
-    let user = localStorage.getItem(USER_NAME);
+    let user = localStorage?.getItem(USER_NAME) || '';
     if (user) return JSON.parse(user);
 };
 

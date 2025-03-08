@@ -2,17 +2,17 @@ export const path = {
     Home: '/',
     Product: '/:id',
     ProductDetail: '/product-detail/:idCate/:id',
-    Order: '/order',
+    Cart: '/cart',
+    Payment: '/payment',
+    OrderSuccess: '/order-success',
     TypeProduct: '/type',
     Account: {
         Profile: '/account',
+        Address: '/account/address',
         // Wishlist: '/account/wishlist',
-        // Address: '/account/address',
         // AddressEdit: '/account/address-edit/:action/*',
-        // MyOrder: '/account/order',
+        MyOrder: '/account/orders',
         // MyOrderDetail: '/account/order/:id',
     },
-    // admin
-    // admin: '/admin-login',
     Admin: '/admin',
 };

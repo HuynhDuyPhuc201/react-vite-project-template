@@ -1,4 +1,4 @@
-const removeVietnameseTones = (str) => {
+const convertToSlug = (str) => {
     return str
         .trim()
         .replace(/\s+/g, '-') // Thay khoảng trắng bằng dấu '-'
@@ -6,4 +6,4 @@ const removeVietnameseTones = (str) => {
         .toLowerCase();
 };
 
-export default removeVietnameseTones;
+export default convertToSlug;

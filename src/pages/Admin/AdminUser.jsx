@@ -9,6 +9,9 @@ import { ModalForm } from './component/ModalForm';
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '~/core/token';
 import { adminService } from '~/services/admin.service';
+import { orderService } from '~/services/order.service';
+import { formattedDate } from '~/core/utils/formatDate';
+import { formatNumber } from '~/core';
 
 const AdminUser = () => {
     const [type, setType] = useState('user');
@@ -33,7 +36,6 @@ const AdminUser = () => {
         queryKey: ['user'],
         queryFn: async () => await adminService.getAll(),
     });
-    console.log('dataUser', dataUser);
 
     const handleOk = () => {
         setIsModalOpen({ open: false, type: 'ok' });
@@ -57,7 +59,6 @@ const AdminUser = () => {
         if (modalConfig.action === 'update' && result) {
             return message.error('Không có gì thay đổi');
         }
-        console.log('currentValues', currentValues);
         try {
             const service = modalConfig.action === 'create' ? adminService.create : adminService.update;
             const result = await service(form);
@@ -78,19 +79,8 @@ const AdminUser = () => {
         try {
             const userAdmin = idCheckbox?.find((item) => item === user._id);
             if (userAdmin) {
-                // Hiển thị Modal xác nhận nếu là tài khoản admin
-                const confirm = await new Promise((resolve) => {
-                    Modal.confirm({
-                        title: 'Xác nhận',
-                        content: 'Tài khoản này là admin. Bạn có chắc muốn xóa?',
-                        onOk: () => resolve(true),
-                        onCancel: () => resolve(false),
-                    });
-                });
-
-                if (!confirm) {
-                    return; // Nếu chọn Cancel thì dừng luôn
-                }
+                message.error('Không thể xóa tài khoản admin');
+                return;
             }
             const result = await adminService.delete(query);
             if (result.success) {
@@ -124,7 +114,26 @@ const AdminUser = () => {
         userForm.reset(item);
     };
 
-    // render
+    const renderOrder = (_id) => {
+        return <Button onClick={() => fetchOrder(_id)}>View Orders</Button>;
+    };
+    const [modalOrder, setModalOrder] = useState(false);
+
+    const handleCancelModalOrder = () => {
+        setModalOrder(false);
+    };
+    const [data, setData] = useState();
+    const fetchOrder = async (_id) => {
+        try {
+            const result = await orderService.getOrderAdmin(_id);
+            setData(result);
+            setModalOrder(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    console.log('data', data);
     const renderUpload = () => {
         return (
             <>
@@ -179,22 +188,17 @@ const AdminUser = () => {
                 width: 120,
             },
             {
-                title: 'Số điện thoại',
+                title: 'Đơn hàng',
                 responsive: ['xs', 'sm', 'md', 'lg'], // Hiện trên mọi màn hình
-                dataIndex: 'phone',
+                dataIndex: '_id',
                 width: 120,
+                render: (_id) => renderOrder(_id),
             },
             {
                 title: 'Ảnh đại diện',
                 responsive: ['md', 'lg'], // Hiện trên mọi màn hình
                 dataIndex: 'avatar',
                 render: (avatar) => renderAvatar(avatar),
-                width: 100,
-            },
-            {
-                title: 'Địa chỉ',
-                responsive: ['xs', 'sm', 'md', 'lg'], // Hiện trên mọi màn hình
-                dataIndex: 'address',
                 width: 100,
             },
             { title: 'Action', dataIndex: '_id', width: 100, render: (id) => renderAction(id) },
@@ -235,7 +239,12 @@ const AdminUser = () => {
                             { name: 'name', label: 'Tên tài khoản', placeholder: 'vd: abc' },
                             { name: 'email', label: 'Tên đăng nhập', placeholder: 'vd: abc@example.com' },
                             { name: 'avatar', label: 'Ảnh đại diện', render: renderUpload(), type: 'avatar' },
-                            { name: 'phone', label: 'Điện thoại', placeholder: 'vd: 0123456789' },
+                            {
+                                name: 'phone',
+                                required: `${modalConfig.action === 'create' ? true : false}`,
+                                label: 'Điện thoại',
+                                placeholder: 'vd: 0123456789',
+                            },
                             {
                                 name: 'password',
                                 required: `${modalConfig.action === 'create' ? true : false}`,
@@ -246,15 +255,56 @@ const AdminUser = () => {
                                 required: `${modalConfig.action === 'create' ? true : false}`,
                                 label: `${modalConfig.action === 'create' ? 'Xác minh mật khẩu' : 'Mật khẩu mới'}`,
                             },
-                            {
-                                name: 'address',
-                                required: `${modalConfig.action === 'create' ? true : false}`,
-                                label: 'Địa chỉ',
-                            },
                         ]}
                     />
-                    <Modal open={isModalOpen.open} onOk={handleOk} onCancel={handleCancel}>
-                        <p>Bạn muốn xóa tài khoản Admin?</p>
+
+                    <Modal title="Chi tiết đơn hàng" open={modalOrder} footer={null} onCancel={handleCancelModalOrder}>
+                        {data?.map((item) => {
+                            return (
+                                <div class="border border-solid p-2.5 my-2.5 border-[#c6c6c6] rounded-[10px]">
+                                    <p>
+                                        <strong>Ngày đặt:</strong> {formattedDate(item?.createdAt)}
+                                    </p>
+                                    <p>
+                                        <strong>Phương thức giao hàng:</strong> {item?.deliveryMethod}
+                                    </p>
+                                    <p>
+                                        <strong>Phương thức thanh toán:</strong> {item?.paymentMethod}
+                                    </p>
+
+                                    <p>
+                                        <strong>Số lượng:</strong> {item?.totalProduct}
+                                    </p>
+                                    <p>
+                                        <strong>Tổng tiền:</strong> {formatNumber(item?.subTotal)}
+                                    </p>
+                                    <p className="mt-3">
+                                        <strong>Sản phẩm:</strong>
+                                    </p>
+                                    <ul>
+                                        {item?.orderItems?.map((item, index) => (
+                                            <li
+                                                key={item?._id}
+                                                style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+                                            >
+                                                <img
+                                                    src={item?.image}
+                                                    alt="Product"
+                                                    style={{ width: '70px', height: '70px', marginRight: '10px' }}
+                                                />
+                                                <div>
+                                                    <p>{item?.name}</p>
+                                                    <p>
+                                                        {formatNumber(item?.price)} x {item?.quantity}
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            );
+                        })}
+                        {!data?.length && <span>Chưa có đơn hàng</span>}
                     </Modal>
                 </div>
             </div>

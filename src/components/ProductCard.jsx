@@ -1,20 +1,35 @@
-import { Card } from 'antd';
+import { Card, Carousel } from 'antd';
 import React from 'react';
 import { StarFilled } from '@ant-design/icons';
 import { generatePath, Link, useParams } from 'react-router-dom';
 import { path } from '~/config/path';
 import { formatNumber } from '~/core';
 
-const CartComponent = ({ item }) => {
+const ProductCard = ({ item }) => {
     const { id } = useParams();
     const discount = ((item?.price_old - item?.price) / item?.price_old) * 100;
     const pathURL = generatePath(path.ProductDetail, { idCate: item?.categories, id: item?._id });
 
     return (
         <Link to={pathURL}>
-            <Card hoverable cover={<img alt="example" src={item?.image} />}>
+            <Card
+                hoverable
+                cover={
+                    item.image?.length > 1 ? (
+                        <Carousel>
+                            {item.image?.map((img) => (
+                                <img key={img.uid} alt="" src={img.thumbUrl} className="h-[200px] object-cover" />
+                            ))}
+                        </Carousel>
+                    ) : (
+                        <img alt="example" src={item.image[0].thumbUrl} className="h-[200px] object-cover" />
+                    )
+                }
+            >
                 <div className="block max-w-full break-words">
-                    <p className="">{item?.name}</p>
+                    <p className="line-clamp-2 overflow-hidden" title={item?.name}>
+                        {item?.name}
+                    </p>
                     <div className="">
                         <span className="pr-2">{item?.rating}</span>
                         <StarFilled style={{ color: '#ffff19' }} />
@@ -32,4 +47,4 @@ const CartComponent = ({ item }) => {
     );
 };
 
-export default CartComponent;
+export default ProductCard;

@@ -2,18 +2,19 @@ import { lazy } from 'react';
 import { path } from './config/path';
 import Page404 from './pages/404';
 const DefaultLayout = lazy(() => import('./layouts/DefaultLayout'));
-const HeaderLayout = lazy(() => import('./layouts/HeaderLayout'));
 const ProfileLayout = lazy(() => import('./layouts/ProfileLayout'));
 const Home = lazy(() => import('./pages/index'));
-const ProductPage = lazy(() => import('./pages/ProductPage/ProductPage'));
-const OrderPage = lazy(() => import('./pages/OrderPage/OrderPage'));
-const TypeProduct = lazy(() => import('./components/Type/TypeProduct'));
+const CartPage = lazy(() => import('./pages/CartPage/CartPage'));
+const Payment = lazy(() => import('./pages/Payment'));
+const OrderSuccessPage = lazy(() => import('./pages/OrderSuccessPage'));
 const ProductDetail = lazy(() => import('./pages/ProductPage/ProductDetail'));
-const PersonalInfo = lazy(() => import('./pages/PersonalInfo'));
 const Profile = lazy(() => import('./pages/Account/Profile'));
+const Address = lazy(() => import('./pages/Account/Address'));
+const MyOrder = lazy(() => import('./pages/Account/MyOrder'));
 
-//  admin
+// admin
 const Admin = lazy(() => import('./pages/Admin/Admin'));
+
 const routers = [
     {
         element: <DefaultLayout />,
@@ -28,20 +29,20 @@ const routers = [
                 element: <Home />,
             },
             {
-                path: path.Order,
-                element: <OrderPage />,
+                path: path.Cart,
+                element: <CartPage />,
             },
             {
-                path: path.TypeProduct,
-                element: <TypeProduct />,
+                path: path.Payment,
+                element: <Payment />,
+            },
+            {
+                path: path.OrderSuccess,
+                element: <OrderSuccessPage />,
             },
             {
                 path: path.ProductDetail,
                 element: <ProductDetail />,
-            },
-            {
-                path: path.PersonalInfo,
-                element: <PersonalInfo />,
             },
             {
                 path: path.Account.Profile,
@@ -51,30 +52,26 @@ const routers = [
                         index: true,
                         element: <Profile />,
                     },
+                    {
+                        path: path.Account.Address,
+                        element: <Address />,
+                    },
+                    {
+                        path: path.Account.MyOrder,
+                        element: <MyOrder />,
+                    },
                 ],
             },
-            {
-                path: '*',
-                element: <Page404 />,
-            },
         ],
-        // admin
     },
     {
         path: path.Admin,
         element: <Admin />,
     },
-    // chỉ sử dụng header layout (test)
-    // {
-    //     element: <HeaderLayout />,
-    //     path: '/',
-    //     children: [
-    //         {
-    //             path: path.Product,
-    //             element: <ProductPage />,
-    //         },
-    //     ],
-    // },
+    {
+        path: '*',
+        element: <Page404 />,
+    },
 ];
 
 export default routers;

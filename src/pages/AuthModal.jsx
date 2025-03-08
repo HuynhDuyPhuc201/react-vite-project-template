@@ -1,14 +1,13 @@
 import { Modal, Row, Col, Typography, Image, message, Spin } from 'antd';
 import { EyeInvisibleOutlined, EyeOutlined, LeftOutlined } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import InputForm from '~/components/InputForm';
 import Button from '~/components/Button';
 import { setToken, setUser } from '~/core/token';
 import { useAppStore } from '~/store/useAppStore';
-import { useMutationHook } from '~/hooks/useMutation';
-import { useMutation } from '@tanstack/react-query';
 import { userService } from '~/services/user.service';
+import { login } from '~/constants/images';
 
 const AuthModal = () => {
     const { Title } = Typography;
@@ -16,7 +15,7 @@ const AuthModal = () => {
 
     const [showPass, setShowPass] = useState(false);
     const [showPassConFirm, setShowPassConFirm] = useState(false);
-    const [showSignUp, setShowSignUp] = useState(false);
+    const { showSignUp, setShowSignUp } = useAppStore();
     const [loading, setLoading] = useState(false);
 
     // tạo useForm sử dụng cho nhiều component
@@ -40,7 +39,6 @@ const AuthModal = () => {
     const handleRegister = async (form) => {
         try {
             const result = await userService.register(form);
-            console.log('result', result);
             if (result.success) {
                 setShowSignUp(false);
                 message.success(result.message);
@@ -50,10 +48,8 @@ const AuthModal = () => {
                     password: '',
                     confirmPassword: '',
                 });
-                setLoading(true);
             }
         } catch (error) {
-            setLoading(false);
             message.error(error.response.data?.message);
         }
     };
@@ -63,7 +59,7 @@ const AuthModal = () => {
             <Modal open={openModal} onCancel={toggleModal} footer={null} width={800}>
                 <Row gutter={[12, 12]} justify="center" align="middle">
                     {!showSignUp && (
-                        <Col md={14}>
+                        <Col xs={24} sm={24} md={14}>
                             <FormProvider {...loginForm}>
                                 <form onSubmit={loginForm.handleSubmit(handleLogin)}>
                                     <Title style={{ fontSize: '16px', marginBottom: '30px', textAlign: 'center' }}>
@@ -184,7 +180,7 @@ const AuthModal = () => {
                     )}
 
                     <Col md={10}>
-                        <Image src="https://salt.tikicdn.com/ts/upload/df/48/21/b4d225f471fe06887284e1341751b36e.png" />
+                        <Image src={login} style={{ width: '300px' }} className="w-[100px]" />
                     </Col>
                 </Row>
             </Modal>

@@ -1,7 +1,7 @@
 import { Checkbox, Col, Rate } from 'antd';
 import { memo } from 'react';
 
-export const RatingCheckbox = memo(({ value, checked, onChange }) => {
+export const RatingItem = memo(({ value, checked, onChange }) => {
     return (
         <Col span={24}>
             <Checkbox value={value} onChange={onChange} checked={checked}>

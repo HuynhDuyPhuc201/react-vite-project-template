@@ -1,7 +1,7 @@
 import { Image } from 'antd';
 import React, { memo } from 'react';
 import Slider from 'react-slick';
-const SliderComponent = ({ arrImg }) => {
+const HomeSlider = ({ arrImg }) => {
     const settings = {
         dots: true,
         infinite: true,
@@ -10,6 +10,7 @@ const SliderComponent = ({ arrImg }) => {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 1000,
+        arrows: false, // Ẩn nút prev/next
     };
     return (
         <>
@@ -32,4 +33,4 @@ const SliderComponent = ({ arrImg }) => {
     );
 };
 
-export default memo(SliderComponent);
+export default memo(HomeSlider);

@@ -4,7 +4,6 @@ import { productService } from '~/services/product.service';
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
     try {
         const data = await productService.getAll();
-        console.log('data', data);
         return data;
     } catch (error) {
         console.log(error);

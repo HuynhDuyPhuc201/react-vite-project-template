@@ -19,4 +19,17 @@ export const userService = {
     refreshToken() {
         return api.post('/user/refresh-token', {}, { withCredentials: true });
     },
+
+    getAddress(form) {
+        return api.get('/user/getAddress', form);
+    },
+    createAddress(form) {
+        return api.post('/user/createAddress', form);
+    },
+    removeAddress(id) {
+        return api.delete(`/user/removeAddress${id}`);
+    },
+    updateAddress(form) {
+        return api.put(`/user/updateAddress`, form);
+    },
 };

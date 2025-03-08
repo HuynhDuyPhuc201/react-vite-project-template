@@ -1,7 +1,7 @@
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, useNavigate } from 'react-router-dom';
 import routers from './router';
 import { Spin } from 'antd';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 function App() {
     const element = useRoutes(routers);

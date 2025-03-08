@@ -7,7 +7,6 @@ export const productService = {
     getAll(query) {
         return api.get(`/product/getAllProduct${query ? query : ''}`);
     },
-
     // cate
     getCategory() {
         return api.get(`/product/getCategory`);

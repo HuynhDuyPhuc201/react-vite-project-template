@@ -1,6 +1,6 @@
 import { useAppStore } from '~/store/useAppStore';
 
-const OverlayComponent = () => {
+const Overlay = () => {
     const { isOverlayVisible, setOverlayVisible } = useAppStore();
 
     // if (!isOverlayVisible) return null; // Nếu không cần overlay thì không render gì cả
@@ -13,4 +13,4 @@ const OverlayComponent = () => {
     );
 };
 
-export default OverlayComponent;
+export default Overlay;

@@ -1,6 +1,6 @@
-import StartCategory from './Category/StartCategory ';
-import PriceCategory from './Category/PriceCategory';
-import TextCategory from './Category/TextCategory';
+import StartCategory from './Type/Rating';
+import PriceCategory from './Type/Price';
+import TextCategory from './Type/Catergory';
 import { useParams } from 'react-router-dom';
 const Navbar = ({ ratingObj, priceObj }) => {
     const { id } = useParams();
@@ -9,12 +9,12 @@ const Navbar = ({ ratingObj, priceObj }) => {
         <>
             <div className="flex items-center flex-col mt-5 w-full">
                 <TextCategory />
-                {id && (
-                    <>
-                        <StartCategory ratingObj={ratingObj} />
-                        <PriceCategory priceObj={priceObj} />
-                    </>
-                )}
+                {/* {id && ( */}
+                <>
+                    <StartCategory ratingObj={ratingObj} />
+                    <PriceCategory priceObj={priceObj} />
+                </>
+                {/* )} */}
             </div>
         </>
     );

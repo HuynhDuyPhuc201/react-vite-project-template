@@ -1,22 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { generatePath, Link, NavLink, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { generatePath, Link, NavLink, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { path } from '~/config/path';
 import { productService } from '~/services/product.service';
 
-const TextCategory = () => {
+const Category = () => {
     const { id } = useParams();
     const { pathname } = useLocation();
 
-    const fetchData = async (req, res) => {
-        return await productService.getCategory();
-    };
-
     const { data } = useQuery({
         queryKey: ['category'],
-        queryFn: fetchData,
+        queryFn: async () => await productService.getCategory(),
     });
-    console.log(data, 'data');
 
     return (
         <div className="category bg-[#fff] rounded-[8px] p-10 w-full my-2">
@@ -42,4 +37,4 @@ const TextCategory = () => {
     );
 };
 
-export default TextCategory;
+export default Category;

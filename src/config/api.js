@@ -23,7 +23,7 @@ api.interceptors.response.use(
         return res.data;
     },
     async (err) => {
-        console.log('Lỗi API:', err?.response?.data);
+        // console.log('Lỗi API:', err?.response?.data);
 
         // Kiểm tra lỗi do token hết hạn
         if (err?.response?.data?.message === 'Token is not valid') {

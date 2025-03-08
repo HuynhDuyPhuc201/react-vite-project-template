@@ -9,8 +9,8 @@ export const ModalForm = ({ title, isOpen, onCancel, methods, onSubmit, fields }
             <Modal title={title} open={isOpen} onCancel={onCancel} footer={null}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     <Row gutter={[18, 18]}>
-                        {fields.map((field) => (
-                            <Col md={12} key={field.name}>
+                        {fields.map((field, i) => (
+                            <Col sm={24} xs={24} md={12} key={i}>
                                 <label className="block text-gray-700">{field.label}</label>
                                 {!field.type && (
                                     <>
@@ -81,7 +81,10 @@ export const ModalForm = ({ title, isOpen, onCancel, methods, onSubmit, fields }
                             </Col>
                         ))}
                         <div className="flex items-center justify-center w-full">
-                            <button className="w-1/2 mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button
+                                className="w-1/2 mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                disabled={fields.isLoading}
+                            >
                                 {title}
                             </button>
                         </div>

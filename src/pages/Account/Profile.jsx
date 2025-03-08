@@ -1,6 +1,6 @@
 import { Avatar, Button, Col, message, Row, Upload } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { getUser, setUser } from '~/core/token';
 import { EyeInvisibleOutlined, EyeOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
@@ -8,17 +8,16 @@ import { userService } from '~/services/user.service';
 import { FormProvider } from 'antd/es/form/context';
 import { useForm } from 'react-hook-form';
 import { path } from '~/config/path';
+import _ from 'lodash';
+import useGetUserDetail from '~/hooks/useGetUserDetail';
+
 const Profile = () => {
     const user = getUser();
     const [imageUrl, setImageUrl] = useState();
     const [showPass, setShowPass] = useState(false);
 
     const updateForm = useForm({ mode: 'onChange' });
-    // truyền id lấy data user detail
-    const { data, refetch } = useQuery({
-        queryKey: ['user'],
-        queryFn: async () => await userService.getDetail(user._id),
-    });
+    const { data, refetch } = useGetUserDetail();
 
     // set form mặc định là giá trị detail từ get
     useEffect(() => {
@@ -26,14 +25,10 @@ const Profile = () => {
     }, [data]);
 
     const onSubmit = async (form) => {
-        const defaultValues = updateForm.formState.defaultValues; // Lấy giá trị ban đầu
-        const currentValues = updateForm.getValues(); // Lấy giá trị hiện tại
-        // const isChanged = !isEqual(defaultValues, currentValues);
-
-        console.log(form, '');
-        // if (!isChanged) {
-        //     return message.error('Không có gì thay đổi');
-        // }
+        const isChanged = JSON.stringify(updateForm.formState.defaultValues) === JSON.stringify(form);
+        if (isChanged) {
+            return message.error('Không có gì thay đổi');
+        }
         try {
             const data = await userService.update(form);
             if (data.success) {
@@ -66,28 +61,26 @@ const Profile = () => {
             <h2 className="text-2xl font-semibold mb-4">Thông tin tài khoản</h2>
             <FormProvider {...updateForm}>
                 <form onSubmit={updateForm.handleSubmit(onSubmit)}>
-                    <Row gutter={[12, 12]}>
-                        <Col md={24}>
-                            <Row gutter={[18, 18]}>
-                                <div className="flex flex-col items-center gap-4 p-4 border rounded-lg shadow-md w-64">
-                                    {/* Hiển thị avatar */}
-                                    <Avatar
-                                        size={100}
-                                        icon={!imageUrl ? <UserOutlined /> : undefined}
-                                        src={imageUrl || data?.user?.avatar}
-                                    />
+                    <Row gutter={[24, 24]} align="top">
+                        <Col xs={24} md={8}>
+                            <div className="flex flex-col items-center gap-4 p-4 border rounded-lg shadow-md w-full">
+                                {/* Hiển thị avatar */}
+                                <Avatar
+                                    size={100}
+                                    icon={!imageUrl ? <UserOutlined /> : undefined}
+                                    src={imageUrl || data?.user?.avatar}
+                                />
+                                {/* Nút tải ảnh lên */}
+                                <Upload showUploadList={false} beforeUpload={() => false} onChange={handleUpload}>
+                                    <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
+                                </Upload>
+                            </div>
+                        </Col>
 
-                                    {/* Nút tải ảnh lên */}
-                                    <Upload
-                                        showUploadList={false}
-                                        beforeUpload={() => false} // Ngăn không gửi file lên server
-                                        onChange={handleUpload}
-                                    >
-                                        <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
-                                    </Upload>
-                                </div>
-                                <Col md={12}>
-                                    <label className="block text-gray-700">Họ & Tên </label>
+                        <Col xs={24} md={16}>
+                            <Row gutter={[12, 12]}>
+                                <Col span={12}>
+                                    <label className="block text-gray-700">Họ & Tên</label>
                                     <input
                                         {...updateForm.register('name')}
                                         type="text"
@@ -95,43 +88,44 @@ const Profile = () => {
                                         placeholder="Nhập họ & tên"
                                     />
                                 </Col>
-                                <Col md={12}>
+
+                                <Col span={12}>
                                     <label className="block text-gray-700">Email</label>
                                     <input
+                                        {...updateForm.register('email')}
                                         type="text"
                                         disabled
-                                        className="w-full p-2 border rounded-lg mb-4"
+                                        className="w-full p-2 border rounded-lg bg-gray-100"
                                         placeholder="abc@example.com"
                                     />
                                 </Col>
-                            </Row>
-                            <Row gutter={[18, 18]}>
-                                <Col md={12}>
+
+                                <Col xs={24} md={24}>
                                     <label className="block text-gray-700">Số điện thoại</label>
                                     <input
                                         {...updateForm.register('phone')}
                                         type="text"
-                                        className="w-full p-2 border rounded-lg mb-4"
-                                        placeholder="abc@example.com"
+                                        className="w-full p-2 border rounded-lg"
+                                        placeholder="Nhập số điện thoại"
                                     />
                                 </Col>
-                                <Col md={12}>
+
+                                {/* <Col xs={24} md={12}>
                                     <label className="block text-gray-700">Địa chỉ</label>
                                     <input
                                         {...updateForm.register('address')}
                                         type="text"
-                                        className="w-full p-2 border rounded-lg mb-4"
-                                        placeholder="abc@example.com"
+                                        className="w-full p-2 border rounded-lg"
+                                        placeholder="Nhập địa chỉ"
                                     />
-                                </Col>
-                            </Row>
+                                </Col> */}
 
-                            <Row gutter={[18, 18]}>
-                                <Col md={12}>
+                                <Col xs={24} md={12}>
                                     <label className="block text-gray-700">Mật khẩu cũ</label>
                                     <div className="relative">
                                         <input
                                             {...updateForm.register('password')}
+                                            type={showPass ? 'text' : 'password'}
                                             className="w-full p-2 border rounded-lg"
                                             placeholder="Nhập mật khẩu"
                                         />
@@ -143,13 +137,13 @@ const Profile = () => {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col md={12}>
+                                <Col xs={24} md={12}>
                                     <label className="block text-gray-700">Mật khẩu mới</label>
                                     <div className="relative">
                                         <input
                                             {...updateForm.register('newPassword')}
-                                            type={showPass ? 'password' : 'text'}
-                                            className="w-full p-2 border rounded-lg mb-4"
+                                            type={showPass ? 'text' : 'password'}
+                                            className="w-full p-2 border rounded-lg"
                                             placeholder="Nhập mật khẩu mới"
                                         />
                                         <div
@@ -163,8 +157,9 @@ const Profile = () => {
                             </Row>
                         </Col>
                     </Row>
-                    <div className="flex items-center justify-center">
-                        <button className="w-[1/2] mt-[30px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+
+                    <div className="flex items-center justify-center mt-6">
+                        <button className="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Lưu thay đổi
                         </button>
                     </div>

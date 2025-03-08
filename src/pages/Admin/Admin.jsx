@@ -1,10 +1,9 @@
 import { Col, Menu, Row } from 'antd';
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, UserOutlined } from '@ant-design/icons';
 import Header from '~/components/Layout/Header';
 import AdminUser from './AdminUser';
 import AdminProduct from './AdminProduct';
-import Category from './Category';
 import { Navigate } from 'react-router-dom';
 import { path } from '~/config/path';
 import { getUser } from '~/core/token';
@@ -15,21 +14,22 @@ const Admin = () => {
     const user = getUser();
     const items = [
         {
+            id: 1,
             key: 'user',
             label: 'Người dùng',
             icon: <UserOutlined />,
         },
         {
+            id: 2,
             key: 'product',
             label: 'Sản Phẩm',
             icon: <AppstoreOutlined />,
         },
     ];
     const onClick = ({ key }) => {
-        console.log(key);
         setRenderComponent(key);
     };
-    if (!user) return <Navigate to={path.Home} />;
+    if (!user || !user.isAdmin) return <Navigate to={path.Home} />;
     return (
         <>
             <Header />
