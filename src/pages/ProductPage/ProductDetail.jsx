@@ -10,7 +10,7 @@ import { useAppStore } from '~/store/useAppStore';
 import { getUser } from '~/core/token';
 import { formatNumber } from '~/core';
 import { cartService } from '~/services/cart.service';
-import './style.scss';
+import './style.css';
 import AddressModal from '~/components/Address/AddressModal';
 import useGetUserDetail from '~/hooks/useGetUserDetail';
 import useGetProductDetail from '~/hooks/useGetProductDetail';
