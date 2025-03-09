@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { path } from '~/config/path';
 import useGetCart from '~/hooks/useGetCart';
 import SearchBar from './SearchBar';
+import { Typography } from 'antd';
 
 const { SubMenu } = Menu;
 
@@ -35,8 +36,6 @@ const Sidebar = () => {
         toggleSidebar(); // Đóng Drawer sau khi chọn menu
     };
 
-    const handleLogin = () => {};
-
     return (
         <Drawer
             open={openSidebar}
@@ -49,8 +48,8 @@ const Sidebar = () => {
             }}
         >
             {/* Header */}
-            <div className="p-5 flex items-center justify-between bg-blue-500">
-                <span className="text-white text-[20px] font-bold">My Shop</span>
+            <div className="p-5 h-[50px] flex items-center justify-between bg-[#1A94FF]">
+                <Typography style={{ color: '#fff', fontSize: '20px', fontFamily: 'sans-serif' }}>My Shop</Typography>
                 <CloseOutlined className="text-white text-[20px] cursor-pointer" onClick={toggleSidebar} />
             </div>
 
@@ -65,23 +64,23 @@ const Sidebar = () => {
                     <UserOutlined style={{ fontSize: '30px', color: '#fff' }} />
                 )}
 
-                {user?.name && <span className="text-[20px] font-medium">{user?.name}</span>}
+                {user?.name && <span className="text-[16px] text-[#333]">{user?.name}</span>}
             </div>
 
             {/* User Menu */}
             <Menu mode="inline" className="text-[20px]" onClick={handleMenuClick}>
-                <SubMenu key="user" title="Tài khoản" className=" font-medium text-[20px]">
+                <SubMenu key="user" title="Tài khoản" className="text-[16px] text-[#333] cursor-pointer">
                     {user && (
                         <>
                             <Menu.Item className="text-[20px]" key={user?.isAdmin ? path.Admin : path.Account.Profile}>
                                 {user?.isAdmin ? 'Quản lý hệ thống' : 'Thông tin người dùng'}
                             </Menu.Item>
                             {!user?.isAdmin && (
-                                <Menu.Item key={path.Account.MyOrder} className="text-[20px]">
+                                <Menu.Item key={path.Account.MyOrder} className="text-[16px] text-[#333]">
                                     Đơn hàng
                                 </Menu.Item>
                             )}
-                            <Menu.Item key="logout" className="text-[20px]">
+                            <Menu.Item key="logout" className="text-[16px] text-[#333]">
                                 Đăng xuất
                             </Menu.Item>
                         </>
@@ -89,7 +88,7 @@ const Sidebar = () => {
 
                     {!user?.isAdmin && (
                         <>
-                            <Menu.Item className="text-[20px]" onClick={() => toggleModal()}>
+                            <Menu.Item className="text-[16px] text-[#333]" onClick={() => toggleModal()}>
                                 Đăng nhập & Đăng ký
                             </Menu.Item>
                         </>
@@ -106,9 +105,9 @@ const Sidebar = () => {
                 }}
             >
                 <Badge count={dataCart?.totalProduct > 0 ? dataCart?.totalProduct : 0}>
-                    <ShoppingCartOutlined className="text-[20px] mr-3" styles={{ fontSize: '20px' }} />
+                    <ShoppingCartOutlined className="text-[16px] text-[#333] mr-3" styles={{ fontSize: '20px' }} />
                 </Badge>
-                <span className="text-[20px]">Giỏ hàng</span>
+                <span className="text-[16px] text-[#333]">Giỏ hàng</span>
             </div>
         </Drawer>
     );
