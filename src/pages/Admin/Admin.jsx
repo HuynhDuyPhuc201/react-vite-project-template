@@ -7,7 +7,7 @@ import AdminProduct from './AdminProduct';
 import { Navigate } from 'react-router-dom';
 import { path } from '~/config/path';
 import { getUser } from '~/core/token';
-import './admin.scss';
+import './admin.css';
 
 const Admin = () => {
     const [renderComponent, setRenderComponent] = useState('user');

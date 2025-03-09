@@ -1,14 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
 import { Button, Col, InputNumber, message, Modal, Row, Table } from 'antd';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import InputForm from '~/components/InputForm';
 import { cart_empty } from '~/constants/images';
 import { formatNumber } from '~/core';
-import { getUser, setUser } from '~/core/token';
+import { getUser } from '~/core/token';
 import { cartService } from '~/services/cart.service';
-import { userService } from '~/services/user.service';
-import './CartPage.scss';
+import './CartPage.css';
 import AddressModal from '~/components/Address/AddressModal';
 import useGetUserDetail from '~/hooks/useGetUserDetail';
 import useGetCart from '~/hooks/useGetCart';
