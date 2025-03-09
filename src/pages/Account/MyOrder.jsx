@@ -54,16 +54,19 @@ const MyOrder = () => {
 
         {
             title: 'Tổng tiền',
+            responsive: ['xs', 'sm', 'md', 'lg'],
             dataIndex: 'subTotal',
             render: (item) => <p>{formatNumber(item)}</p>,
         },
         {
             title: 'Ngày đặt',
+            responsive: ['xs', 'sm', 'md', 'lg'],
             dataIndex: 'createdAt',
             render: (item) => formattedDate(item),
         },
         {
             title: 'Chi tiết',
+            responsive: ['xs', 'sm', 'md', 'lg'],
             dataIndex: '_id',
             render: (id, record) => (
                 <Button key={id} type="link" onClick={() => showModal(record)}>

@@ -168,6 +168,13 @@ const AdminUser = () => {
     const columns = {
         user: [
             {
+                title: 'Ảnh đại diện',
+                responsive: ['md', 'lg'], // Hiện trên mọi màn hình
+                dataIndex: 'avatar',
+                render: (avatar) => renderAvatar(avatar),
+                width: 100,
+            },
+            {
                 title: 'Tên tài khoản',
                 responsive: ['xs', 'sm', 'md', 'lg'], // Hiện trên mọi màn hình
                 dataIndex: 'name',
@@ -193,13 +200,6 @@ const AdminUser = () => {
                 dataIndex: '_id',
                 width: 120,
                 render: (_id) => renderOrder(_id),
-            },
-            {
-                title: 'Ảnh đại diện',
-                responsive: ['md', 'lg'], // Hiện trên mọi màn hình
-                dataIndex: 'avatar',
-                render: (avatar) => renderAvatar(avatar),
-                width: 100,
             },
             { title: 'Action', dataIndex: '_id', width: 100, render: (id) => renderAction(id) },
         ],
